@@ -1,19 +1,45 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Car List</title>
-</head>
-<body>
+{%  extends "base.html" %}
+
+{% block page_title %} Car List {% endblock page_title %}
+
+{% block content %}
+
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+    <li>
+      <div class = "alert alert-success"> {{ message }}</div>
+    </li>
+    {% endfor%}
+  </ul>
+{% endif %}
+
+<br>
+<div class="row">
 	{% for car in cars %}
-		<a href="{{car.get_absolute_url}}">
-			<h1>
-				{{car.make}} - {{car.model}}
-				<small>
-					{{car.year}}
-				</small>
-			</h1>
-		</a>
-		<hr>
-	{% endfor %}
-</body>
-</html>
+	<div class="col-md-4">
+		<div class="card my-card">
+          	<div class="card-body">
+				<a href="{{car.get_absolute_url}}">
+					<h1 class = "card-title"> {{car.make}} </h1>
+				</a>
+
+				<p class = "card-text"> Car Model: {{car.model}} <br> Car year: {{car.year}} </p>
+
+		 		{% if car.car_img %}
+            		<img src ="{{car.car_img.url}}">
+         		{% endif %}
+		
+			</div>
+
+			<ul class="list-group list-group-flush">
+	            <li class="list-group-item text-center">
+	                <a href="{% url 'car-detail' car.id %}" class="btn btn-outline-dark">View</a>
+	            </li>
+	        </ul>
+      </div>
+  </div>
+  {% endfor %}
+
+</div>
+{% endblock content %}
